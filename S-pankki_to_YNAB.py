@@ -30,6 +30,7 @@ def initialize_paths():
 
     history_dir_name = 'History'
     history_dir_path = os.path.join(current_dir, history_dir_name)
+    
     export_file_path = os.path.join(current_dir, f'export.csv')
     export_to_history_file_path = os.path.join(
         current_dir, history_dir_name, f'export_{current_date_str}.csv')
@@ -42,7 +43,7 @@ def initialize_paths():
     info_json_name = 'info.json'
     info_json_path = os.path.join(config_dir_path, info_json_name)
 
-    return csv_path, csv_modded_path, csv_duplicate_check_path, info_json_path, history_dir_path, export_to_history_file_path, export_file_path
+    return csv_path, csv_modded_path, info_json_path, export_to_history_file_path, export_file_path
 
 
 def read_and_process_csv(csv_path):
@@ -245,7 +246,7 @@ def scan_directory_for_file():
 def process_csv():
     try:
         set_locale()
-        csv_path, csv_modded_path, csv_duplicate_check_path, info_json_path, history_dir_path, export_to_history_file_path, export_file_path = initialize_paths()
+        csv_path, csv_modded_path, info_json_path, export_to_history_file_path, export_file_path = initialize_paths()
 
         # Get API key and Budget ID through JSON
         with open(info_json_path, 'r') as file:
@@ -276,9 +277,6 @@ def process_csv():
 
         # Save the non-duplicate transactions to a new CSV file
         save_to_csv(df, csv_modded_path)
-
-        # Append non-duplicate transactions to the duplicate check CSV
-        save_to_csv(df, csv_duplicate_check_path, mode='a', header=False)
 
         move_file(export_file_path, export_to_history_file_path)
 
