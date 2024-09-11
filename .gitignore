@@ -1,0 +1,7 @@
+*.exe
+*.csv
+
+dist/
+build/
+RESULTS/
+History/
