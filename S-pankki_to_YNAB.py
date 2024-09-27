@@ -225,18 +225,24 @@ def move_file(source, destination):
     try:
         shutil.move(source, destination)
         print(f'File moved from {source} to {destination}')
+        write_log(f'File moved from {source} to {destination}')
     except FileNotFoundError:
         print(f'The file {source} does not exist.')
+        write_log(f'The file {source} does not exist.')
     except PermissionError:
         print(f'Permission denied: Unable to move the file {source}.')
+        write_log(f'Permission denied: Unable to move the file {source}.')
     except Exception as e:
         print(f'Error moving file: {e}')
+        write_log(f'Error moving file: {e}')
 
 
 def scan_directory_for_file():
     global log_txt_path
     csv_path, csv_modded_path, info_json_path, export_to_history_file_path, export_file_path, log_txt_path = initialize_paths()
 
+    bootup_text = f'INFO: Booting up...'
+    write_log(bootup_text)
     directory = os.path.join(os.path.expanduser("~"), "Downloads")
     filename = 'export.csv'
     full_path = os.path.join(directory, filename)
@@ -256,7 +262,8 @@ def scan_directory_for_file():
             move_file(full_path,
                       os.getcwd())
 
-            process_csv(csv_path, csv_modded_path, info_json_path, export_to_history_file_path, export_file_path, log_txt_path)
+            process_csv(csv_path, csv_modded_path, info_json_path,
+                        export_to_history_file_path, export_file_path, log_txt_path)
 
         # Wait for the specified interval before scanning again
         time.sleep(interval)
@@ -271,7 +278,7 @@ def write_log(log_text):
 def process_csv(csv_path, csv_modded_path, info_json_path, export_to_history_file_path, export_file_path, log_txt_path):
     try:
         set_locale()
-        
+
         # Get API key and Budget ID through JSON
         with open(info_json_path, 'r') as file:
             info = json.load(file)

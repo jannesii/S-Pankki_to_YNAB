@@ -2,6 +2,8 @@
 *.csv
 *.txt
 *.json
+*.lnk
+*.spec
 
 dist/
 build/
