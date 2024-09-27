@@ -1,6 +1,5 @@
 *.exe
 *.csv
-info.json
 
 dist/
 build/
