@@ -1,6 +1,7 @@
 *.exe
 *.csv
 *.txt
+*.json
 
 dist/
 build/
