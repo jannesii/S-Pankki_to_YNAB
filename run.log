@@ -1,0 +1,31 @@
+11:50:44 INFO root: Booting up directory watcher...
+12:08:10 INFO src.config: Creating program directory: C:\Users\Janne Siirtola\AppData\Local\S-Pankki_to_YNAB
+12:08:10 INFO src.config: Creating config.json: C:\Users\Janne Siirtola\AppData\Local\S-Pankki_to_YNAB\config.json
+12:08:10 ERROR src.config: Failed to load config: [Errno 2] No such file or directory: 'C:\\Users\\Janne Siirtola\\AppData\\Local\\S-Pankki_to_YNAB\\config.json'. Continuing with defaults.
+Traceback (most recent call last):
+  File "C:\Users\Janne Siirtola\OneDrive\Coding\S-Pankki_to_YNAB\src\config.py", line 42, in build
+    with open(config_json_path, 'r') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\Janne Siirtola\\AppData\\Local\\S-Pankki_to_YNAB\\config.json'
+12:08:10 INFO src.sync_service: Booting up directory watcher...
+12:09:52 INFO src.sync_service: Booting up directory watcher...
+12:23:15 INFO src.config: Created config file: C:\Users\Janne Siirtola\AppData\Local\S-Pankki_to_YNAB\config.json
+12:23:15 ERROR src: Error occurred: Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json
+Traceback (most recent call last):
+  File "C:\Users\Janne Siirtola\OneDrive\Coding\S-Pankki_to_YNAB\src\__init__.py", line 10, in main
+    config = Config.build()
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Janne Siirtola\OneDrive\Coding\S-Pankki_to_YNAB\src\config.py", line 55, in build
+    raise FileNotFoundError("Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json")
+FileNotFoundError: Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json
+12:24:18 INFO src.sync_service: Booting up directory watcher...
+12:25:43 INFO src.config: Created config file: C:\Users\Janne Siirtola\AppData\Local\S-Pankki_to_YNAB\config.json
+12:26:19 ERROR src: Fatal error in main execution
+Traceback (most recent call last):
+  File "C:\Users\Janne Siirtola\OneDrive\Coding\S-Pankki_to_YNAB\src\__init__.py", line 10, in main
+    config = Config.build()
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Janne Siirtola\OneDrive\Coding\S-Pankki_to_YNAB\src\config.py", line 55, in build
+    raise FileNotFoundError("Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json")
+FileNotFoundError: Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json
+12:26:37 INFO src.sync_service: Booting up directory watcher...

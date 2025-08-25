@@ -6,4 +6,5 @@
 *.spec
 
 dist/
-build/
+pybuild/
+.venv/
