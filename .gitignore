@@ -4,7 +4,10 @@
 *.json
 *.lnk
 *.spec
+*.pyc
 
 dist/
 pybuild/
 .venv/
+run.log
+__pycache__/
