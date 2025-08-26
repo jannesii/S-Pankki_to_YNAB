@@ -51,7 +51,7 @@ class SyncService:
             os.makedirs(os.path.dirname(self.config.export_to_history_file_path), exist_ok=True)
             self.csv.save_to_csv(df, self.config.csv_modded_path)
 
-            move_file(self.config.export_file_path, os.path.dirname(self.config.export_to_history_file_path))
+            move_file(self.config.export_file_path, self.config.export_to_history_file_path)
 
         except Exception as e:
             logger.exception(e)

@@ -9,8 +9,24 @@ logging.basicConfig(
     filemode="a",
 )
 
+# Create console handler
+console = logging.StreamHandler()
+console.setLevel(logging.DEBUG)
+
+# Use the same format as file
+formatter = logging.Formatter(
+    "%(asctime)s %(levelname)s %(name)s: %(message)s",
+    datefmt="%H:%M:%S"
+)
+console.setFormatter(formatter)
+
+# Add the console handler to the root logger
+logging.getLogger().addHandler(console)
+
+
 def main() -> None:
     start_program()
+
 
 if __name__ == "__main__":
     main()
