@@ -3,8 +3,8 @@ from src import main as start_program
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    datefmt="%H:%M:%S",
+    format="%(asctime)s %(levelname)s %(name)s:%(lineno)d %(funcName)s: %(message)s",
+    datefmt="%d/%m %H:%M:%S",
     filename="run.log",
     filemode="a",
 )
@@ -15,8 +15,8 @@ console.setLevel(logging.DEBUG)
 
 # Use the same format as file
 formatter = logging.Formatter(
-    "%(asctime)s %(levelname)s %(name)s: %(message)s",
-    datefmt="%H:%M:%S"
+    "%(asctime)s %(levelname)s %(name)s:%(lineno)d %(funcName)s: %(message)s",
+    datefmt="%d/%m %H:%M:%S"
 )
 console.setFormatter(formatter)
 

@@ -16,7 +16,9 @@ class YNABClient:
         url = f"{self.base_url}/budgets/{self.budget_id}/payees"
         r = requests.get(url, headers=self.headers)
         if r.status_code == 200:
-            return {p['id']: p['name'] for p in r.json()['data']['payees']}
+            data = {p['id']: p['name'] for p in r.json()['data']['payees']}
+            logger.info(f"Fetched payees count: {len(data)}")
+            return data
         logger.exception(f'Failed to fetch payees: {r.status_code} - {r.text}')
         return {}
 
@@ -25,7 +27,9 @@ class YNABClient:
         url = f"{self.base_url}/budgets/{self.budget_id}/transactions"
         r = requests.get(url, headers=self.headers)
         if r.status_code == 200:
-            return r.json()['data']['transactions']
+            tx = r.json()['data']['transactions']
+            logger.info(f"Fetched transactions count: {len(tx)}")
+            return tx
         logger.exception(f'Failed to fetch transactions: {r.status_code} - {r.text}')
         return []
 
@@ -44,14 +48,15 @@ class YNABClient:
         if not transactions:
             logger.info("No transactions to upload.")
             return True
-        logger.info('Uploading transactions (bulk)...')
+        logger.info(f'Uploading transactions (bulk)... count={len(transactions)}')
         url = f"{self.base_url}/budgets/{self.budget_id}/transactions/bulk"
         try:
             r = requests.post(url, headers=self.headers, json={'transactions': transactions})
             if r.status_code == 201:
                 logger.info('Bulk transaction upload successful!')
                 return True
-            logger.error(f'Error in bulk transaction upload: {r.status_code} - {r.text}')
+            snippet = r.text[:500] if isinstance(r.text, str) else str(r.text)
+            logger.error(f'Error in bulk transaction upload: {r.status_code} - {snippet}')
             return False
         except Exception as e:
             logger.exception(e)

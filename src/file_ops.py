@@ -5,6 +5,7 @@ logger = logging.getLogger(__name__)
 
 def move_file(source: str, destination_dir: str) -> None:
     try:
+        logger.info(f"Attempting to move file from {source} to {destination_dir}")
         shutil.move(source, destination_dir)
         logger.info(f'File moved from {source} to {destination_dir}')
     except FileNotFoundError:
