@@ -32,29 +32,34 @@ class Config:
 
         base_dir = base_dir or os.getcwd()
         logger.debug(f"Using base_dir={base_dir}")
-        local_appadata = os.getenv("LOCALAPPDATA")
-        program_dir = os.path.join(local_appadata, "S-Pankki_to_YNAB")
-        logger.debug(f"Program data dir={program_dir}")
-            
-        config_json_path = os.path.join(program_dir, 'config.json')
-        if os.path.exists(config_json_path):
-            logger.info(f"Loading app config: {config_json_path}")
-            with open(config_json_path, 'r') as f:
-                config_data = json.load(f)
+        
+        if os.name == 'nt':  # Windows
+            local_appadata = os.getenv("LOCALAPPDATA")
+            program_dir = os.path.join(local_appadata, "S-Pankki_to_YNAB")
+            logger.debug(f"Program data dir={program_dir}")
+                
+            config_json_path = os.path.join(program_dir, 'config.json')
+            if os.path.exists(config_json_path):
+                logger.info(f"Loading app config: {config_json_path}")
+                with open(config_json_path, 'r') as f:
+                    config_data = json.load(f)
 
-            downloads_dir = config_data.get("downloads_dir")
+                downloads_dir = config_data.get("downloads_dir")
+            else:
+                logger.info("App config not found. Creating default config...")
+                if not os.path.exists(program_dir):
+                    os.makedirs(program_dir)
+                downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
+                downloads_dir = downloads_path if os.path.exists(downloads_path) else ""
+                with open(config_json_path, 'w') as f:
+                    json.dump({
+                        "downloads_dir": downloads_dir
+                    }, f)
+                logger.info(f'Created config file: {config_json_path}')
         else:
-            logger.info("App config not found. Creating default config...")
-            if not os.path.exists(program_dir):
-                os.makedirs(program_dir)
             downloads_path = os.path.join(os.path.expanduser("~"), "Downloads")
             downloads_dir = downloads_path if os.path.exists(downloads_path) else ""
-            with open(config_json_path, 'w') as f:
-                json.dump({
-                    "downloads_dir": downloads_dir
-                }, f)
-            logger.info(f'Created config file: {config_json_path}')
-            
+                
         if not downloads_dir:
             logger.error("Downloads directory not configured. Set downloads_dir in LOCALAPPDATA/S-Pankki_to_YNAB/config.json")
             raise FileNotFoundError("Downloads directory not found. Set downloads_dir in AppData/Local/S-Pankki_to_YNAB/config.json")
@@ -62,7 +67,7 @@ class Config:
             logger.error(f"Configured downloads_dir does not exist: {downloads_dir}")
             raise FileNotFoundError(f"Configured downloads_dir does not exist: {downloads_dir}")
         logger.info(f"Watching downloads_dir={downloads_dir}")
-
+ 
         result_dir_name = 'RESULTS'
         history_dir_name = 'History'
         config_dir_name = 'Config'
