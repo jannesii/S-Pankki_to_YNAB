@@ -5,6 +5,7 @@
 *.lnk
 *.spec
 *.pyc
+Config/info.json
 
 dist/
 pybuild/

@@ -20,13 +20,17 @@ class SyncService:
         self.csv = CsvProcessor()
 
     def _load_api_info(self) -> YNABClient:
-        logger.info(f"Loading YNAB credentials from {self.config.info_json_path}")
-        with open(self.config.info_json_path, 'r') as f:
-            info = json.load(f)
-        api_key = info.get('api_key')
-        budget_id = info.get('budget_id')
+        logger.info(f"Loading YNAB credentials...")
+        if os.name == 'nt':  # Windows
+            with open(self.config.info_json_path, 'r') as f:
+                info = json.load(f)
+            api_key = info.get('api_key')
+            budget_id = info.get('budget_id')
+        else:
+            api_key = os.getenv("API_KEY")
+            budget_id = os.getenv("BUDGET_ID")
         if not api_key or not budget_id:
-            raise RuntimeError("api_key or budget_id missing in info.json")
+            raise RuntimeError("api_key or budget_id missing. Please check configuration.")
         logger.debug(f"YNAB budget_id loaded: {budget_id}")
         return YNABClient(api_key=api_key, budget_id=budget_id)
 
