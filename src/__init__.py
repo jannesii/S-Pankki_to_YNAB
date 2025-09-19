@@ -8,6 +8,10 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     try:
+        api_key, budget_id = os.getenv("API_KEY"), os.getenv("BUDGET_ID")
+        if not api_key or not budget_id:
+            raise ValueError("API_KEY and BUDGET_ID environment variables must be set")
+        
         env = os.getenv("ENV", "Development")
         logger.info(f"Starting program in {env} environment")
         config = Config.build()
